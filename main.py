@@ -4,11 +4,11 @@ from tkinter import Tk, BOTH, Canvas
 class Window:
     def __init__(self, width, height) -> None:
         self.root_widget = Tk()
-        self.root_widget.title = "Title"
+        self.root_widget.title = "Maze Solver"
         self.root_widget.protocol("WM_DELETE_WINDOW", self.close)
 
-        self.canvas = Canvas()
-        self.canvas.pack()
+        self.canvas = Canvas(self.root_widget, bg="black", height=height, width=width)
+        self.canvas.pack(fill=BOTH, expand=1)
 
         self.status_running = False
 
