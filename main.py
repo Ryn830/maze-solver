@@ -7,16 +7,17 @@ from cell import Cell
 def main():
     win = Window(800, 600)
 
-    start = Point(100, 100)
-    end = Point(200, 300)
+    start_p1 = Point(100, 100)
+    end_p1 = Point(200, 200)
+    cell_1 = Cell(win, start_p1, end_p1)
+    cell_1.draw()
 
-    line = Line(start, end)
+    start_p2 = Point(400, 400)
+    end_p2 = Point(500, 500)
+    cell_2 = Cell(win, start_p2, end_p2)
+    cell_2.draw()
 
-    win.draw_line(line, "black")
-
-    cell = Cell(win, start, end)
-    cell.has_top_wall = False
-    cell.draw()
+    cell_1.draw_move(cell_2)
 
     win.wait_for_close()
 
