@@ -9,5 +9,5 @@ class Line:
 
     def draw(self, canvas: Canvas, color: str):
         canvas.create_line(
-            self.start.x, self.start.y, self.end.x, self.end.y, fill=color, width=5
+            self.start.x, self.start.y, self.end.x, self.end.y, fill=color, width=2
         )
