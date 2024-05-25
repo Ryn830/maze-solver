@@ -1,4 +1,5 @@
 from time import sleep
+from typing import Union
 
 from window import Window
 from point import Point
@@ -14,7 +15,7 @@ class Maze:
         num_cols: int,
         cell_size_x: int,
         cell_size_y: int,
-        win: Window,
+        win: Union[Window, None] = None,
     ) -> None:
         self.x1 = x1
         self.y1 = y1
@@ -46,5 +47,7 @@ class Maze:
         self._animate()
 
     def _animate(self):
+        if self.win is None:
+            return
         self.win.redraw()
         sleep(0.05)

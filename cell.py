@@ -18,6 +18,9 @@ class Cell:
         self.win = win
 
     def draw(self):
+        if self.win is None:
+            return
+
         if self.has_top_wall:
             top_start = Point(self._x1, self._y1)
             top_end = Point(self._x2, self._y1)
