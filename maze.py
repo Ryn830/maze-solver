@@ -1,5 +1,5 @@
 from time import sleep
-from typing import Union
+from typing import Union, List
 
 from window import Window
 from point import Point
@@ -25,7 +25,7 @@ class Maze:
         self.cell_size_y = cell_size_y
         self.win = win
 
-        self.cells = []
+        self.cells: List[List[Cell]] = []
         self._create_cells()
 
     def _create_cells(self):
@@ -41,7 +41,7 @@ class Maze:
                     self.y1 + (row * self.cell_size_y) + self.cell_size_y,
                 )
                 cell = Cell(self.win, start, end)
-                cell.draw()
+                cell.draw_walls()
                 new_row.append(cell)
             self.cells.append(new_row)
         self._animate()
@@ -51,3 +51,10 @@ class Maze:
             return
         self.win.redraw()
         sleep(0.05)
+
+    def _break_entrance_and_exit(self):
+        entrance_cell = self.cells[0][0]
+        entrance_cell.remove_walls(["top"])
+
+        exit_cell = self.cells[self.num_rows - 1][self.num_cols - 1]
+        exit_cell.remove_walls(["bottom"])

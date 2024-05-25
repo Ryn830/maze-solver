@@ -1,3 +1,5 @@
+from typing import List
+
 from point import Point
 from line import Line
 from window import Window
@@ -17,33 +19,56 @@ class Cell:
 
         self.win = win
 
-    def draw(self):
+    def draw_wall(self, start: Point, end: Point, color="black"):
+        if self.win is None:
+            return
+
+        wall_start = Point(start.x, start.y)
+        wall_end = Point(end.x, end.y)
+        wall_line = Line(wall_start, wall_end)
+        self.win.draw_line(wall_line, color)
+
+    def draw_walls(self):
         if self.win is None:
             return
 
         if self.has_top_wall:
-            top_start = Point(self._x1, self._y1)
-            top_end = Point(self._x2, self._y1)
-            top_line = Line(top_start, top_end)
-            self.win.draw_line(top_line)
+            self.draw_wall(Point(self._x1, self._y1), Point(self._x2, self._y1))
 
         if self.has_right_wall:
-            right_start = Point(self._x2, self._y1)
-            right_end = Point(self._x2, self._y2)
-            right_line = Line(right_start, right_end)
-            self.win.draw_line(right_line)
+            self.draw_wall(Point(self._x2, self._y1), Point(self._x2, self._y2))
 
         if self.has_bottom_wall:
-            bottom_start = Point(self._x1, self._y2)
-            bottom_end = Point(self._x2, self._y2)
-            bottom_line = Line(bottom_start, bottom_end)
-            self.win.draw_line(bottom_line)
+            self.draw_wall(Point(self._x1, self._y2), Point(self._x2, self._y2))
 
         if self.has_left_wall:
-            left_start = Point(self._x1, self._y1)
-            left_end = Point(self._x1, self._y2)
-            left_line = Line(left_start, left_end)
-            self.win.draw_line(left_line)
+            self.draw_wall(Point(self._x1, self._y1), Point(self._x1, self._y2))
+
+    def remove_walls(self, directions: List[str]):
+        for direction in directions:
+            if direction == "top":
+                self.has_top_wall = False
+                self.draw_wall(
+                    Point(self._x1, self._y1), Point(self._x2, self._y1), "white"
+                )
+
+            if direction == "right":
+                self.has_right_wall = False
+                self.draw_wall(
+                    Point(self._x2, self._y1), Point(self._x2, self._y2), "white"
+                )
+
+            if direction == "bottom":
+                self.has_bottom_wall = False
+                self.draw_wall(
+                    Point(self._x1, self._y2), Point(self._x2, self._y2), "white"
+                )
+
+            if direction == "left":
+                self.has_left_wall = False
+                self.draw_wall(
+                    Point(self._x1, self._y1), Point(self._x1, self._y2), "white"
+                )
 
     def draw_move(self, to_cell, undo=False):
         start_center = Point(
