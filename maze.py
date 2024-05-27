@@ -32,6 +32,9 @@ class Maze:
 
         seed(random_seed)
 
+        self._break_entrance_and_exit()
+        self._break_walls()
+
     def _create_cells(self):
         for row in range(self.num_rows):
             new_row = []
@@ -70,7 +73,7 @@ class Maze:
             (i,j-1)
     """
 
-    def _break_walls(self, i: int = 0, j: int = 0, draw_move: bool = False):
+    def _break_walls(self, draw_move: bool = False, i: int = 0, j: int = 0):
         current_cell = self.cells[i][j]
         current_cell.visited = True
 
@@ -104,4 +107,4 @@ class Maze:
             current_cell.remove_walls([direction])
             if draw_move:
                 current_cell.draw_move(self.cells[next_row][next_col])
-            self._break_walls(next_row, next_col)
+            self._break_walls(draw_move, next_row, next_col)

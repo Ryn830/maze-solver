@@ -24,6 +24,7 @@ class Cell:
         self.has_left_wall = True
 
         # True if cell has had it's walls broken by maze walking algorithm
+        # Or used in solving the maze
         self.visited = False
 
         self.win = win
@@ -56,6 +57,7 @@ class Cell:
         if self.has_left_wall:
             self.draw_wall(Point(self._x1, self._y1), Point(self._x1, self._y2))
 
+    # Removing a wall is drawing over it
     def remove_walls(self, directions: List[str]):
         for direction in directions:
             if direction == "top":
