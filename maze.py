@@ -44,7 +44,7 @@ class Maze:
                     self.x1 + (col * self.cell_size_x) + self.cell_size_x,
                     self.y1 + (row * self.cell_size_y) + self.cell_size_y,
                 )
-                cell = Cell(self.win, start, end)
+                cell = Cell(self.win, start, end, row, col)
                 cell.draw_walls()
                 new_row.append(cell)
             self.cells.append(new_row)
@@ -70,16 +70,16 @@ class Maze:
             (i,j-1)
     """
 
-    def _break_walls(self, i: int = 0, j: int = 0):
+    def _break_walls(self, i: int = 0, j: int = 0, draw_move: bool = False):
         current_cell = self.cells[i][j]
         current_cell.visited = True
 
         while True:
             directions = [
-                (i, j + 1, "top"),
-                (i, j - 1, "bottom"),
-                (i + 1, j, "right"),
-                (i - 1, j, "left"),
+                (i, j + 1, "right"),
+                (i, j - 1, "left"),
+                (i + 1, j, "bottom"),
+                (i - 1, j, "top"),
             ]
 
             possible_directions = []
@@ -102,4 +102,6 @@ class Maze:
             shuffle(possible_directions)
             (next_row, next_col, direction) = possible_directions.pop(0)
             current_cell.remove_walls([direction])
+            if draw_move:
+                current_cell.draw_move(self.cells[next_row][next_col])
             self._break_walls(next_row, next_col)

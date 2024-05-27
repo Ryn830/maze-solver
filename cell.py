@@ -6,12 +6,17 @@ from window import Window
 
 
 class Cell:
-    def __init__(self, win: Window, start: Point, end: Point) -> None:
+    def __init__(
+        self, win: Window, start: Point, end: Point, row: int, col: int
+    ) -> None:
         # Coordinates on grid. Top left and bottom right
         self._x1 = start.x
         self._y1 = start.y
         self._x2 = end.x
         self._y2 = end.y
+
+        self.row = row
+        self.col = col
 
         self.has_top_wall = True
         self.has_right_wall = True
@@ -22,6 +27,9 @@ class Cell:
         self.visited = False
 
         self.win = win
+
+    def __repr__(self) -> str:
+        return f"{(self.row, self.col)}"
 
     def draw_wall(self, start: Point, end: Point, color="black"):
         if self.win is None:
