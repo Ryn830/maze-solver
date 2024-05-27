@@ -34,6 +34,16 @@ class Maze:
 
         self._break_entrance_and_exit()
         self._break_walls()
+        self._reset_cells_visited()
+
+    def __repr__(self) -> str:
+        text = ""
+        for row in range(0, self.num_rows):
+            text_row = ""
+            for col in range(0, self.num_cols):
+                text_row += f"{self.cells[row][col]}"
+            text += f"{text_row}\n"
+        return text
 
     def _create_cells(self):
         for row in range(self.num_rows):
@@ -108,3 +118,8 @@ class Maze:
             if draw_move:
                 current_cell.draw_move(self.cells[next_row][next_col])
             self._break_walls(draw_move, next_row, next_col)
+
+    def _reset_cells_visited(self):
+        for row in range(0, self.num_rows):
+            for col in range(0, self.num_cols):
+                self.cells[row][col].visited = False

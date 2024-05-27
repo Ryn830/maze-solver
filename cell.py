@@ -30,7 +30,7 @@ class Cell:
         self.win = win
 
     def __repr__(self) -> str:
-        return f"{(self.row, self.col)}"
+        return f"{(self.row, self.col, 'X' if self.visited else 'O')}"
 
     def draw_wall(self, start: Point, end: Point, color="black"):
         if self.win is None:
