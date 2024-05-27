@@ -1,5 +1,6 @@
 from time import sleep
 from typing import Union, List
+from random import seed, shuffle
 
 from window import Window
 from point import Point
@@ -16,6 +17,7 @@ class Maze:
         cell_size_x: int,
         cell_size_y: int,
         win: Union[Window, None] = None,
+        random_seed: int = None,
     ) -> None:
         self.x1 = x1
         self.y1 = y1
@@ -27,6 +29,8 @@ class Maze:
 
         self.cells: List[List[Cell]] = []
         self._create_cells()
+
+        seed(random_seed)
 
     def _create_cells(self):
         for row in range(self.num_rows):
@@ -58,3 +62,44 @@ class Maze:
 
         exit_cell = self.cells[self.num_rows - 1][self.num_cols - 1]
         exit_cell.remove_walls(["bottom"])
+
+    """
+    Possible directions:
+            (i,j+1)
+    (i-1,j) (i,j  ) (i+1,j)
+            (i,j-1)
+    """
+
+    def _break_walls(self, i: int = 0, j: int = 0):
+        current_cell = self.cells[i][j]
+        current_cell.visited = True
+
+        while True:
+            directions = [
+                (i, j + 1, "top"),
+                (i, j - 1, "bottom"),
+                (i + 1, j, "right"),
+                (i - 1, j, "left"),
+            ]
+
+            possible_directions = []
+
+            for direction in directions:
+                row = direction[0]
+                col = direction[1]
+                if row < 0 or row >= self.num_rows:
+                    continue
+
+                if col < 0 or col >= self.num_cols:
+                    continue
+
+                if self.cells[row][col].visited == False:
+                    possible_directions.append(direction)
+
+            if len(possible_directions) == 0:
+                return
+
+            shuffle(possible_directions)
+            (next_row, next_col, direction) = possible_directions.pop(0)
+            current_cell.remove_walls([direction])
+            self._break_walls(next_row, next_col)
