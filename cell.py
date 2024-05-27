@@ -10,6 +10,7 @@ class Cell:
         self, win: Window, start: Point, end: Point, row: int, col: int
     ) -> None:
         # Coordinates on grid. Top left and bottom right
+        # note: (0,0) is in the top right and (∞,∞) is in the bottom left
         self._x1 = start.x
         self._y1 = start.y
         self._x2 = end.x

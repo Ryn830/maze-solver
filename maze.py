@@ -78,21 +78,21 @@ class Maze:
 
     """
     Possible directions:
-            (i,j+1)
-    (i-1,j) (i,j  ) (i+1,j)
-            (i,j-1)
+                (row-1,col)
+    (row,col-1) (row  ,col) (row,col+1)
+                (row+1,col)
     """
 
-    def _break_walls(self, draw_move: bool = False, i: int = 0, j: int = 0):
-        current_cell = self.cells[i][j]
+    def _break_walls(self, draw_move: bool = False, row: int = 0, col: int = 0):
+        current_cell = self.cells[row][col]
         current_cell.visited = True
 
         while True:
             directions = [
-                (i, j + 1, "right"),
-                (i, j - 1, "left"),
-                (i + 1, j, "bottom"),
-                (i - 1, j, "top"),
+                (row, col + 1, "right"),
+                (row, col - 1, "left"),
+                (row + 1, col, "bottom"),
+                (row - 1, col, "top"),
             ]
 
             possible_directions = []
