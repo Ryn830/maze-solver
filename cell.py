@@ -31,7 +31,38 @@ class Cell:
         self.win = win
 
     def __repr__(self) -> str:
-        return f"{(self.row, self.col, 'X' if self.visited else 'O')}"
+        walls = {
+            # Top, Right, Bottom, Left
+            # Single
+            "True,False,False,False": "⊤",
+            "False,True,False,False": "⊣",
+            "False,False,True,False": "⊥",
+            "False,False,False,True": "⊢",
+            # Double
+            "True,True,False,False": "⌝",
+            "True,False,True,False": "⫩",
+            "True,False,False,True": "⌜",
+            "False,True,True,False": "⌟",
+            "False,True,False,True": "⟛",
+            "False,False,True,True": "⌞",
+            # Triple
+            "True,True,True,False": "⊐",
+            "True,False,True,True": "⊏",
+            "True,True,False,True": "⊓",
+            "False,True,True,True": "⊔",
+            # All
+            "True,True,True,True": "▢",
+            "False,False,False,False": "○",
+        }
+        cell_walls = walls[
+            f"{self.has_top_wall},{self.has_right_wall},{self.has_bottom_wall},{self.has_left_wall}"
+        ]
+        return f"{(self.row, self.col, 'X' if self.visited else 'O', cell_walls)}"
+
+    def __eq__(self, other_cell: any) -> bool:
+        if not isinstance(other_cell, Cell):
+            return False
+        return self.row == other_cell.row and self.col == other_cell.col
 
     def draw_wall(self, start: Point, end: Point, color="black"):
         if self.win is None:
